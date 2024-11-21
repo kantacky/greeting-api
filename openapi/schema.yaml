@@ -1,0 +1,64 @@
+openapi: "3.1.1"
+info:
+  title: Greeting API
+  description: A short description of API.
+  version: 1.0.0
+servers:
+  - url: https://api.greeting.kantacky.com/v1
+    description: Production Server
+  - url: https://stg.api.greeting.kantacky.com/v1
+    description: Staging Server
+  - url: https://dev.api.greeting.kantacky.com/v1
+    description: Development Server
+  - url: http://localhost:8081/v1
+    description: Local Server
+paths:
+  /hello:
+    get:
+      tags: []
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Greeting"
+              example:
+                message: Hello, World!
+      parameters: []
+    post:
+      tags: []
+      security:
+        - AuthBearer: []
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Greeting"
+              example:
+                message: Hello, John!
+        "401":
+          description: Unauthorized
+      parameters: []
+      requestBody:
+        description: Greeting Message
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Greeting"
+            example:
+              message: Hello, API!
+components:
+  schemas:
+    Greeting:
+      type: object
+      properties:
+        message:
+          type: string
+  securitySchemes:
+    AuthBearer:
+      type: http
+      scheme: bearer
+      description: Bearer Access Token for Authorization
